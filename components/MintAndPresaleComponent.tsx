@@ -32,7 +32,7 @@ export function MintAndPresaleComponent({
           color={showPresale ? 'primary' : 'tertiary'}
           onClick={() => setShowPresale(true)}
         >
-          Presale
+          Free?
         </Button>
         <Button
           pill
