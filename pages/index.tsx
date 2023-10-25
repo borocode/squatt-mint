@@ -42,7 +42,7 @@ const HomePage: NextPage<HomePageProps> = ({ collections }) => {
           name="description"
           content={
             metadata.metadataDetails?.description ||
-            "ZORA's creator toolkit makes it easy to create an NFT collection, with tooling that scales with your creative ambitions"
+            "999 Rishads. Collect."
           }
         />
         <meta name="og:title" content={`${collections[0].name}`} />
@@ -54,7 +54,7 @@ const HomePage: NextPage<HomePageProps> = ({ collections }) => {
           name="og:description"
           content={
             metadata.metadataDetails?.description ||
-            "ZORA's creator toolkit makes it easy to create an NFT collection, with tooling that scales with your creative ambitions"
+            "999 Rishads. Collect."
           }
         />
         <meta name="og:image" content={ogImage} />
