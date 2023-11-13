@@ -31,6 +31,8 @@ a:hover {
 
 .zord-mint-details .zord-text-paragraph-sm {
   font-size: var(--_1yv16yc6i); /* font-size: 18px */
+  margin: 0;
+  padding: 0;
 }
 
 .zord-text-eyebrow {
