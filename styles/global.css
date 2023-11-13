@@ -59,3 +59,11 @@ a:hover {
 .zord-mint-status__number-input button:hover {
   opacity: 0.6;
 }
+
+.zord-mint-details__item[name="Number minted"] {
+  margin-bottom: 0; /* or adjust as needed */
+}
+
+.zord-mint-details__item[name="Number minted"] p {
+  margin-bottom: 0; /* or adjust as needed */
+}
