@@ -116,7 +116,7 @@ export function MintDetails({
                   />
                 )}
 
-                {presaleExists && merkleRootExists && (
+{/*                 {presaleExists && merkleRootExists && (
                   <>
                     <CollectionDetailsItem
                       className="zord-mint-details__item"
@@ -150,7 +150,7 @@ export function MintDetails({
                   />
                 )}
               </Stack>
-            </Collapsible.Content>
+            </Collapsible.Content> */}
 
             {!hideToggle && (
               <Collapsible.Trigger asChild={true}>
