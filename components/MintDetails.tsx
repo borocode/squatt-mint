@@ -77,7 +77,7 @@ export function MintDetails({
                 ' NFTs'
               ) : (
                 <Paragraph as="span" size="sm" color="tertiary">
-                  /{formattedTotalSupplyCount}
+      <span> / {formattedTotalSupplyCount}</span>
                 </Paragraph>
               )}
             </Paragraph>
