@@ -116,7 +116,7 @@ export function MintDetails({
                   />
                 )}
 
-{/*                 {presaleExists && merkleRootExists && (
+                {/* {presaleExists && merkleRootExists && (
                   <>
                     <CollectionDetailsItem
                       className="zord-mint-details__item"
