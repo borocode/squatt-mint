@@ -89,11 +89,11 @@ export function MintDetails({
               name="Max per address"
             >
               <Text variant="paragraph-sm">
-                userMintedCount && maxPerWallet < OPEN_EDITION_SIZE && (
+                {/*userMintedCount && maxPerWallet < OPEN_EDITION_SIZE && (
                 <Box display="inline" color="tertiary">
                   {userMintedCount}/
                 </Box>
-              )
+              )*/}
                 {allowlistEntry &&
                   `Presale: ${allowlistEntry.maxCanMint} / Public sale: `}
                 {maxPerWallet}
