@@ -148,9 +148,9 @@ export function MintDetails({
                     name="Public sale end"
                     value={endDate.toLocaleString(...dateOptions)}
                   />
-                )}
+                )} */}
               </Stack>
-            </Collapsible.Content> */}
+            </Collapsible.Content>
 
             {!hideToggle && (
               <Collapsible.Trigger asChild={true}>
