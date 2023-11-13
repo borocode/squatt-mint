@@ -70,7 +70,7 @@ export function MintDetails({
         onOpenChange={(value) => setOpened(value)}
       >
         <Stack className="zord-mint-details" gap="x3">
-          <CollectionDetailsItem className="zord-mint-details__item" name="Number minted">
+          {/* <CollectionDetailsItem className="zord-mint-details__item" name="Number minted">
             <Paragraph size="sm">
               {formattedMintedCount}
               {collection.maxSupply > OPEN_EDITION_SIZE ? (
@@ -81,7 +81,17 @@ export function MintDetails({
                 </Paragraph>
               )}
             </Paragraph>
-          </CollectionDetailsItem>
+          </CollectionDetailsItem> */}
+
+<CollectionDetailsItem className="zord-mint-details__item" name="Number minted">
+  <Paragraph size="sm">
+    {formattedMintedCount}
+    {collection.maxSupply > OPEN_EDITION_SIZE && ' NFTs'}
+    {collection.maxSupply <= OPEN_EDITION_SIZE && (
+      <span>/{formattedTotalSupplyCount}</span>
+    )}
+  </Paragraph>
+</CollectionDetailsItem>
 
           {maxPerWallet < OPEN_EDITION_SIZE && (
             <CollectionDetailsItem
