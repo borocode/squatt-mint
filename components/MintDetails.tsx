@@ -83,12 +83,12 @@ export function MintDetails({
             </Paragraph>
           </CollectionDetailsItem> */}
 
-<CollectionDetailsItem className="zord-mint-details__item" name="Number minted">
-  <Paragraph size="sm">
+<CollectionDetailsItem style={{ margin: 0 }} className="zord-mint-details__item" name="Number minted">
+  <Paragraph size="sm" style={{ margin: 0 }}>
     {formattedMintedCount}
     {collection.maxSupply > OPEN_EDITION_SIZE && ' NFTs'}
     {collection.maxSupply <= OPEN_EDITION_SIZE && (
-      <span>/{formattedTotalSupplyCount}</span>
+      <span style={{ margin: 0 }}>/ {formattedTotalSupplyCount}</span>
     )}
   </Paragraph>
 </CollectionDetailsItem>
