@@ -82,19 +82,19 @@ export function MintDetails({
               )}
             </Paragraph>
           </CollectionDetailsItem>
-{/*
+
           {maxPerWallet < OPEN_EDITION_SIZE && (
             <CollectionDetailsItem
               className="zord-mint-details__item"
               name="Max per address"
             >
-              <Text variant="paragraph-sm"> */}
+              <Text variant="paragraph-sm">
                 {/*userMintedCount && maxPerWallet < OPEN_EDITION_SIZE && (
                 <Box display="inline" color="tertiary">
                   {userMintedCount}/
                 </Box>
               )*/}
-   {/*               {allowlistEntry &&
+                {allowlistEntry &&
                   `Presale: ${allowlistEntry.maxCanMint} / Public sale: `}
                 {maxPerWallet}
               </Text>
@@ -115,7 +115,7 @@ export function MintDetails({
                     }
                   />
                 )}
-*/}
+
                 {/* {presaleExists && merkleRootExists && (
                   <>
                     <CollectionDetailsItem
