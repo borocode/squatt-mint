@@ -61,9 +61,11 @@ a:hover {
 }
 
 .zord-mint-details__item[name="Number minted"] {
-  margin-bottom: 0; /* or adjust as needed */
+  margin: 0;
+  padding: 0;
 }
 
 .zord-mint-details__item[name="Number minted"] p {
-  margin-bottom: 0; /* or adjust as needed */
+  margin: 0;
+  padding: 0;
 }
