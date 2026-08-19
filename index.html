@@ -516,7 +516,7 @@
       <!-- Price Breakdown -->
       <div class="price-row">
         <span class="price-label">Price per Squatt</span>
-        <span class="price-val">0.010777 ETH</span>
+        <span id="unit-price-display" class="price-val">0.400777 ETH</span>
       </div>
 
       <!-- Quantity Picker -->
@@ -541,7 +541,7 @@
       <!-- Total Price -->
       <div class="price-row" style="border-top:1px solid #1e293b; padding-top:12px;">
         <span class="price-label" style="font-weight:600; color:#fff;">Total Amount</span>
-        <span id="total-price" class="price-val" style="color:var(--primary);">0.010777 ETH</span>
+        <span id="total-price" class="price-val" style="color:var(--primary);">0.400777 ETH</span>
       </div>
 
       <!-- Mint Button -->
@@ -568,7 +568,7 @@
     // Constants
     const CONTRACT_ADDRESS = "0xeb051df4f4a5de7bdc462c947e551085ba3a9664";
     const ETH_MAINNET_ID = 1;
-    const PRICE_PER_UNIT = ethers.parseEther("0.010777"); // 0.01 ETH + 0.000777 ETH fee
+    let PRICE_PER_UNIT = ethers.parseEther("0.400777"); // Syncs with on-chain live state
     const FALLBACK_RPC = "https://ethereum-rpc.publicnode.com";
 
     // Minimal Zora Drop ABI
@@ -590,6 +590,7 @@
     const mintBtn = document.getElementById("mint-btn");
     const qtyText = document.getElementById("qty-text");
     const totalPriceText = document.getElementById("total-price");
+    const unitPriceDisplay = document.getElementById("unit-price-display");
     const mintedCountEl = document.getElementById("minted-count");
     const mintedPctEl = document.getElementById("minted-pct");
     const progressFill = document.getElementById("progress-fill");
@@ -617,6 +618,8 @@
 
     function updatePriceUI() {
       qtyText.innerText = quantity;
+      const unitStr = ethers.formatEther(PRICE_PER_UNIT);
+      if (unitPriceDisplay) unitPriceDisplay.innerText = `${unitStr} ETH`;
       const total = ethers.formatEther(PRICE_PER_UNIT * BigInt(quantity));
       totalPriceText.innerText = `${total} ETH`;
       if (userAddress) {
@@ -624,7 +627,7 @@
       }
     }
 
-    // Query on-chain live supply
+    // Query on-chain live supply & detect live active price
     async function loadOnChainStats() {
       try {
         const readProvider = new ethers.JsonRpcProvider(FALLBACK_RPC);
@@ -635,6 +638,25 @@
         const pct = ((count / 999) * 100).toFixed(1);
         mintedPctEl.innerText = `${pct}%`;
         progressFill.style.width = `${Math.max(3, pct)}%`;
+
+        // Check if price changed to 0.010777 ETH on-chain
+        try {
+          await readProvider.call({
+            to: CONTRACT_ADDRESS,
+            data: "0xefef39a10000000000000000000000000000000000000000000000000000000000000001",
+            value: ethers.parseEther("0.010777")
+          });
+          // If simulation succeeded, price is 0.010777 ETH!
+          PRICE_PER_UNIT = ethers.parseEther("0.010777");
+          updatePriceUI();
+        } catch (simErr) {
+          // If reverted with expected 0.400777 requirement or other
+          const errStr = JSON.stringify(simErr);
+          if (errStr.includes("058fd88edf259000")) {
+            PRICE_PER_UNIT = ethers.parseEther("0.400777");
+          }
+          updatePriceUI();
+        }
       } catch (err) {
         console.warn("Could not fetch live supply:", err);
       }
