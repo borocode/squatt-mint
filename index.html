@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rishad Squatt — Official Mint</title>
+  <meta name="description" content="999 Rishads. Collect. Official mint page for Rishad Squatt on Ethereum Mainnet." />
+  <link rel="icon" href="public/favicon.ico" />
+
+  <!-- OpenGraph / Social Cards -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Rishad Squatt — Official Mint" />
+  <meta property="og:description" content="999 Rishads. Collect. Mint directly on Ethereum Mainnet." />
+  <meta property="og:image" content="https://ipfs.io/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Rishad Squatt — Official Mint" />
+  <meta name="twitter:description" content="999 Rishads. Collect. Mint directly on Ethereum Mainnet." />
+  <meta name="twitter:image" content="https://ipfs.io/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq" />
+
+  <!-- Google Fonts & Ethers.js v6 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.2/ethers.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: #0f141f;
+      --card-border: #1e293b;
+      --primary: #39ff14;
+      --primary-hover: #32e012;
+      --primary-glow: rgba(57, 255, 20, 0.25);
+      --accent: #38bdf8;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --danger: #ef4444;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 16px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Background Glow */
+    body::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(57, 255, 20, 0.08) 0%, rgba(56, 189, 248, 0.05) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      width: 100%;
+      max-width: 1040px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0 24px;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      background: #111;
+      object-fit: cover;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      background: rgba(57, 255, 20, 0.15);
+      color: var(--primary);
+      padding: 3px 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(57, 255, 20, 0.3);
+      font-weight: 600;
+    }
+
+    .connect-btn {
+      font-family: 'JetBrains Mono', monospace;
+      background: #1e293b;
+      color: var(--text);
+      border: 1px solid #334155;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .connect-btn:hover {
+      background: #334155;
+      border-color: #475569;
+    }
+
+    .connect-btn.connected {
+      background: rgba(57, 255, 20, 0.1);
+      border-color: rgba(57, 255, 20, 0.4);
+      color: var(--primary);
+    }
+
+    main {
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+      margin: auto 0;
+      z-index: 10;
+    }
+
+    @media (max-width: 800px) {
+      main {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+
+    /* Art Card */
+    .art-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .art-container {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .art-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      image-rendering: pixelated;
+      transition: transform 0.4s ease;
+    }
+
+    .art-card:hover .art-img {
+      transform: scale(1.02);
+    }
+
+    .art-overlay-tag {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    /* Mint Card */
+    .mint-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .collection-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .collection-header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Progress Stats */
+    .progress-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .progress-labels .highlight {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: #1e293b;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 6px;
+      width: 3.2%;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Price Box */
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+    }
+
+    .price-label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .price-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Quantity Picker */
+    .qty-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #07090e;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 6px;
+    }
+
+    .qty-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: #111827;
+      border: 1px solid #1f2937;
+      color: var(--text);
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qty-btn:hover {
+      background: #1f2937;
+      border-color: #374151;
+    }
+
+    .qty-btn:active {
+      transform: scale(0.95);
+    }
+
+    .qty-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.3rem;
+      font-weight: 700;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .quick-qty-group {
+      display: flex;
+      gap: 6px;
+    }
+
+    .quick-qty {
+      background: transparent;
+      border: 1px solid #1e293b;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .quick-qty:hover {
+      border-color: #475569;
+      color: #fff;
+    }
+
+    /* Action Button */
+    .mint-action-btn {
+      background: var(--primary);
+      color: #051402;
+      border: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 20px var(--primary-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .mint-action-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(57, 255, 20, 0.4);
+    }
+
+    .mint-action-btn:disabled {
+      background: #1e293b;
+      color: #64748b;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Status Notifications */
+    #status-banner {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      padding: 10px 14px;
+      border-radius: 8px;
+      display: none;
+      word-break: break-all;
+    }
+
+    #status-banner.error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      display: block;
+    }
+
+    #status-banner.success {
+      background: rgba(57, 255, 20, 0.15);
+      border: 1px solid rgba(57, 255, 20, 0.3);
+      color: var(--primary);
+      display: block;
+    }
+
+    #status-banner.pending {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent);
+      display: block;
+    }
+
+    /* Links Footer */
+    footer {
+      width: 100%;
+      max-width: 1040px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 24px 0 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      z-index: 10;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="brand">
+      <img src="https://ipfs.io/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq" alt="Rishad Squatt" class="brand-avatar" onerror="this.src='public/favicon.ico'" />
+      <span class="brand-title">Rishad Squatt</span>
+      <span class="brand-badge">ETH MAINNET</span>
+    </a>
+
+    <button id="wallet-btn" class="connect-btn" onclick="toggleWallet()">
+      <span id="wallet-dot" style="width:7px; height:7px; border-radius:50%; background:#64748b;"></span>
+      <span id="wallet-btn-text">Connect Wallet</span>
+    </button>
+  </header>
+
+  <main>
+    <!-- Left: Artwork Column -->
+    <div class="art-card">
+      <div class="art-container">
+        <img id="squatt-art" src="https://ipfs.io/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq" alt="Rishad Squatt NFT Artwork" class="art-img" />
+        <div class="art-overlay-tag">
+          <div class="pulse-dot"></div>
+          <span>ERC-721 Drop</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Mint Details Column -->
+    <div class="mint-card">
+      <div class="collection-header">
+        <h1>Rishad Squatt</h1>
+        <p>999 Rishads. Collect. Original Zora ERC-721 drop revived on Ethereum Mainnet.</p>
+      </div>
+
+      <!-- Live On-Chain Stats -->
+      <div class="progress-box">
+        <div class="progress-labels">
+          <span>MINTED SUPPLY</span>
+          <span class="highlight"><span id="minted-count">32</span> / <span id="max-supply">999</span> (<span id="minted-pct">3.2%</span>)</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div id="progress-fill" class="progress-bar-fill"></div>
+        </div>
+      </div>
+
+      <!-- Price Breakdown -->
+      <div class="price-row">
+        <span class="price-label">Price per Squatt</span>
+        <span class="price-val">0.400777 ETH</span>
+      </div>
+
+      <!-- Quantity Picker -->
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="price-label">Select Quantity</span>
+          <div class="quick-qty-group">
+            <button class="quick-qty" onclick="setQty(1)">1</button>
+            <button class="quick-qty" onclick="setQty(3)">3</button>
+            <button class="quick-qty" onclick="setQty(5)">5</button>
+            <button class="quick-qty" onclick="setQty(10)">10</button>
+          </div>
+        </div>
+
+        <div class="qty-container">
+          <button class="qty-btn" onclick="updateQty(-1)">−</button>
+          <div id="qty-text" class="qty-display">1</div>
+          <button class="qty-btn" onclick="updateQty(1)">+</button>
+        </div>
+      </div>
+
+      <!-- Total Price -->
+      <div class="price-row" style="border-top:1px solid #1e293b; padding-top:12px;">
+        <span class="price-label" style="font-weight:600; color:#fff;">Total Amount</span>
+        <span id="total-price" class="price-val" style="color:var(--primary);">0.400777 ETH</span>
+      </div>
+
+      <!-- Mint Button -->
+      <button id="mint-btn" class="mint-action-btn" onclick="handleMintAction()">
+        ⚡ Connect Wallet to Mint
+      </button>
+
+      <!-- Status Banner -->
+      <div id="status-banner"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div>Contract: <a href="https://etherscan.io/address/0xeb051df4f4a5de7bdc462c947e551085ba3a9664" target="_blank" style="color:var(--accent); text-decoration:none;">0xeb05...9664</a></div>
+    <div class="footer-links">
+      <a href="https://etherscan.io/address/0xeb051df4f4a5de7bdc462c947e551085ba3a9664#code" target="_blank">Etherscan</a>
+      <a href="https://opensea.io/collection/rishad-squatt" target="_blank">OpenSea</a>
+      <a href="https://zora.co/@boroghor" target="_blank">Zora</a>
+      <a href="https://github.com/borocode/squatt-mint" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    // Constants
+    const CONTRACT_ADDRESS = "0xeb051df4f4a5de7bdc462c947e551085ba3a9664";
+    const ETH_MAINNET_ID = 1;
+    const PRICE_PER_UNIT = ethers.parseEther("0.400777"); // 0.4 ETH + 0.000777 ETH fee
+    const FALLBACK_RPC = "https://ethereum-rpc.publicnode.com";
+
+    // Minimal Zora Drop ABI
+    const DROP_ABI = [
+      "function totalSupply() view returns (uint256)",
+      "function purchase(uint256 quantity) payable returns (uint256)",
+      "function mintWithRewards(address recipient, uint256 quantity, string comment, address mintReferral) payable returns (uint256)"
+    ];
+
+    let userAddress = null;
+    let provider = null;
+    let signer = null;
+    let quantity = 1;
+
+    // Elements
+    const walletBtn = document.getElementById("wallet-btn");
+    const walletBtnText = document.getElementById("wallet-btn-text");
+    const walletDot = document.getElementById("wallet-dot");
+    const mintBtn = document.getElementById("mint-btn");
+    const qtyText = document.getElementById("qty-text");
+    const totalPriceText = document.getElementById("total-price");
+    const mintedCountEl = document.getElementById("minted-count");
+    const mintedPctEl = document.getElementById("minted-pct");
+    const progressFill = document.getElementById("progress-fill");
+    const statusBanner = document.getElementById("status-banner");
+
+    function showStatus(msg, type) {
+      statusBanner.className = type;
+      statusBanner.innerHTML = msg;
+    }
+
+    function clearStatus() {
+      statusBanner.className = "";
+      statusBanner.innerHTML = "";
+    }
+
+    function setQty(val) {
+      quantity = Math.max(1, Math.min(20, val));
+      updatePriceUI();
+    }
+
+    function updateQty(delta) {
+      quantity = Math.max(1, Math.min(20, quantity + delta));
+      updatePriceUI();
+    }
+
+    function updatePriceUI() {
+      qtyText.innerText = quantity;
+      const total = ethers.formatEther(PRICE_PER_UNIT * BigInt(quantity));
+      totalPriceText.innerText = `${total} ETH`;
+      if (userAddress) {
+        mintBtn.innerText = `⚡ Mint ${quantity} Rishad Squatt`;
+      }
+    }
+
+    // Query on-chain live supply
+    async function loadOnChainStats() {
+      try {
+        const readProvider = new ethers.JsonRpcProvider(FALLBACK_RPC);
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, DROP_ABI, readProvider);
+        const supply = await contract.totalSupply();
+        const count = Number(supply);
+        mintedCountEl.innerText = count;
+        const pct = ((count / 999) * 100).toFixed(1);
+        mintedPctEl.innerText = `${pct}%`;
+        progressFill.style.width = `${Math.max(3, pct)}%`;
+      } catch (err) {
+        console.warn("Could not fetch live supply:", err);
+      }
+    }
+
+    async function toggleWallet() {
+      if (userAddress) {
+        // Disconnect visual
+        userAddress = null;
+        signer = null;
+        walletBtn.className = "connect-btn";
+        walletDot.style.background = "#64748b";
+        walletBtnText.innerText = "Connect Wallet";
+        mintBtn.innerText = "⚡ Connect Wallet to Mint";
+        clearStatus();
+      } else {
+        await connectWallet();
+      }
+    }
+
+    async function connectWallet() {
+      if (typeof window.ethereum === "undefined") {
+        showStatus("⚠️ No Web3 wallet found. Please install MetaMask, Coinbase Wallet, or Rabby.", "error");
+        return;
+      }
+
+      try {
+        clearStatus();
+        provider = new ethers.BrowserProvider(window.ethereum);
+        const accounts = await provider.send("eth_requestAccounts", []);
+        const network = await provider.getNetwork();
+
+        if (Number(network.chainId) !== ETH_MAINNET_ID) {
+          try {
+            await window.ethereum.request({
+              method: "wallet_switchEthereumChain",
+              params: [{ chainId: "0x1" }]
+            });
+          } catch (switchErr) {
+            showStatus("⚠️ Please switch your wallet network to Ethereum Mainnet.", "error");
+            return;
+          }
+        }
+
+        signer = await provider.getSigner();
+        userAddress = await signer.getAddress();
+
+        walletBtn.className = "connect-btn connected";
+        walletDot.style.background = "var(--primary)";
+        walletBtnText.innerText = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
+        mintBtn.innerText = `⚡ Mint ${quantity} Rishad Squatt`;
+        mintBtn.disabled = false;
+      } catch (err) {
+        console.error(err);
+        showStatus(`Connection failed: ${err.message || err}`, "error");
+      }
+    }
+
+    async function handleMintAction() {
+      if (!userAddress) {
+        await connectWallet();
+        return;
+      }
+
+      try {
+        clearStatus();
+        mintBtn.disabled = true;
+        mintBtn.innerText = "⏳ Confirm in Wallet...";
+        showStatus("Please confirm the transaction in your Web3 wallet...", "pending");
+
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, DROP_ABI, signer);
+        const totalValue = PRICE_PER_UNIT * BigInt(quantity);
+
+        // Call purchase()
+        const tx = await contract.purchase(quantity, { value: totalValue });
+        showStatus(`🚀 Transaction submitted! Waiting for confirmation... <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:#fff; text-decoration:underline;">View on Etherscan</a>`, "pending");
+
+        const receipt = await tx.wait();
+        if (receipt.status === 1) {
+          showStatus(`🎉 Successfully minted ${quantity} Rishad Squatt! <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:var(--primary); text-decoration:underline;">View TX on Etherscan</a>`, "success");
+          
+          // Trigger confetti!
+          if (typeof confetti === "function") {
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+          }
+
+          loadOnChainStats();
+        } else {
+          showStatus("❌ Transaction reverted on-chain.", "error");
+        }
+      } catch (err) {
+        console.error("Mint error:", err);
+        const msg = err.reason || err.message || "User rejected or insufficient funds.";
+        showStatus(`⚠️ ${msg.slice(0, 120)}`, "error");
+      } finally {
+        mintBtn.disabled = false;
+        mintBtn.innerText = `⚡ Mint ${quantity} Rishad Squatt`;
+      }
+    }
+
+    // IPFS Gateway image fallback loader
+    function initArtFallback() {
+      const artImg = document.getElementById("squatt-art");
+      const gateways = [
+        "https://ipfs.io/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq",
+        "https://gateway.pinata.cloud/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq",
+        "https://cloudflare-ipfs.com/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq",
+        "https://dweb.link/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq"
+      ];
+      let currentGatewayIdx = 0;
+
+      artImg.onerror = () => {
+        currentGatewayIdx++;
+        if (currentGatewayIdx < gateways.length) {
+          artImg.src = gateways[currentGatewayIdx];
+        }
+      };
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initArtFallback();
+      loadOnChainStats();
+
+      // Listen for account change
+      if (window.ethereum) {
+        window.ethereum.on("accountsChanged", (accounts) => {
+          if (accounts.length === 0) {
+            toggleWallet();
+          } else {
+            connectWallet();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
