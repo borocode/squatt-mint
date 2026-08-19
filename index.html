@@ -3,40 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rishad Squatt — Official Mint</title>
-  <meta name="description" content="999 Rishads. Collect. Official mint page for Rishad Squatt on Ethereum Mainnet." />
+  <title>≡ blog // squatt-mint</title>
+  <meta name="description" content="999 Rishads. Collect. Official mint & admin console on Ethereum Mainnet." />
   <link rel="icon" href="public/favicon.ico" />
 
-  <!-- OpenGraph / Social Cards -->
+  <!-- OpenGraph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Rishad Squatt — Official Mint" />
-  <meta property="og:description" content="999 Rishads. Collect. Mint directly on Ethereum Mainnet." />
+  <meta property="og:title" content="≡ blog // squatt-mint" />
+  <meta property="og:description" content="999 Rishads. Collect. Official mint & admin console on Ethereum Mainnet." />
   <meta property="og:image" content="https://ipfs.io/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Rishad Squatt — Official Mint" />
-  <meta name="twitter:description" content="999 Rishads. Collect. Mint directly on Ethereum Mainnet." />
-  <meta name="twitter:image" content="https://ipfs.io/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq" />
+  <meta name="twitter:title" content="≡ blog // squatt-mint" />
+  <meta name="twitter:description" content="999 Rishads. Collect. Official mint & admin console on Ethereum Mainnet." />
 
-  <!-- Google Fonts & Ethers.js v6 -->
+  <!-- Fonts & Ethers v6 -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.2/ethers.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     :root {
-      --bg: #07090e;
-      --card-bg: #0f141f;
-      --card-border: #1e293b;
-      --primary: #39ff14;
-      --primary-hover: #32e012;
-      --primary-glow: rgba(57, 255, 20, 0.25);
-      --accent: #38bdf8;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --danger: #ef4444;
-      --radius: 16px;
+      --bg: #000000;
+      --card-bg: #000000;
+      --border-green: #00ff00;
+      --border-dim: #004400;
+      --text: #ffffff;
+      --text-muted: #888888;
+      --accent-green: #00ff00;
+      --accent-cyan: #00ffff;
+      --accent-red: #ff3333;
+      --font-mono: 'JetBrains Mono', 'Courier New', Courier, monospace;
     }
 
     * {
@@ -48,630 +46,659 @@
     body {
       background-color: var(--bg);
       color: var(--text);
-      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: var(--font-mono);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      padding: 24px 16px;
+      padding: 20px 16px;
       position: relative;
-      overflow-x: hidden;
     }
 
-    /* Ambient Background Glow */
-    body::before {
-      content: '';
-      position: absolute;
-      top: -20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(57, 255, 20, 0.08) 0%, rgba(56, 189, 248, 0.05) 40%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    header {
+    .container {
       width: 100%;
-      max-width: 1040px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 0 24px;
-      z-index: 10;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-    }
-
-    .brand-avatar {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: 2px solid var(--primary);
-      background: #111;
-      object-fit: cover;
-    }
-
-    .brand-title {
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: -0.5px;
-    }
-
-    .brand-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      background: rgba(57, 255, 20, 0.15);
-      color: var(--primary);
-      padding: 3px 8px;
-      border-radius: 12px;
-      border: 1px solid rgba(57, 255, 20, 0.3);
-      font-weight: 600;
-    }
-
-    .connect-btn {
-      font-family: 'JetBrains Mono', monospace;
-      background: #1e293b;
-      color: var(--text);
-      border: 1px solid #334155;
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .connect-btn:hover {
-      background: #334155;
-      border-color: #475569;
-    }
-
-    .connect-btn.connected {
-      background: rgba(57, 255, 20, 0.1);
-      border-color: rgba(57, 255, 20, 0.4);
-      color: var(--primary);
-    }
-
-    main {
-      width: 100%;
-      max-width: 980px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 36px;
-      align-items: center;
-      margin: auto 0;
-      z-index: 10;
-    }
-
-    @media (max-width: 800px) {
-      main {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-    }
-
-    /* Art Card */
-    .art-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .art-container {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #000;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .art-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      image-rendering: pixelated;
-      transition: transform 0.4s ease;
-    }
-
-    .art-card:hover .art-img {
-      transform: scale(1.02);
-    }
-
-    .art-overlay-tag {
-      position: absolute;
-      bottom: 12px;
-      left: 12px;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(8px);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .pulse-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--primary);
-      box-shadow: 0 0 8px var(--primary);
-    }
-
-    /* Mint Card */
-    .mint-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 32px 28px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      max-width: 900px;
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
 
-    .collection-header h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 6px;
-    }
-
-    .collection-header p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-
-    /* Progress Stats */
-    .progress-box {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 12px;
-      padding: 16px;
+    /* SK3 Header */
+    header {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .progress-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .progress-labels .highlight {
-      color: var(--primary);
-      font-weight: 700;
-    }
-
-    .progress-bar-bg {
-      width: 100%;
-      height: 8px;
-      background: #1e293b;
-      border-radius: 6px;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      border-radius: 6px;
-      width: 3.2%;
-      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Price Box */
-    .price-row {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 4px 0;
+      justify-content: space-between;
+      padding-bottom: 8px;
     }
 
-    .price-label {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    .price-val {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.15rem;
-      font-weight: 700;
+    .site-title {
+      font-size: 1.4rem;
+      font-weight: 800;
       color: #fff;
-    }
-
-    /* Quantity Picker */
-    .qty-container {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      background: #07090e;
-      border: 1px solid #1e293b;
-      border-radius: 12px;
-      padding: 6px;
+      gap: 8px;
+      text-decoration: none;
+      letter-spacing: -0.5px;
     }
 
-    .qty-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      background: #111827;
-      border: 1px solid #1f2937;
-      color: var(--text);
-      font-size: 1.25rem;
+    .site-title span.slash {
+      color: var(--border-green);
+    }
+
+    .wallet-status-btn {
+      font-family: var(--font-mono);
+      background: transparent;
+      border: 1px solid var(--border-green);
+      color: var(--border-green);
+      padding: 6px 14px;
+      font-size: 0.8rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.15s ease;
       display: flex;
       align-items: center;
-      justify-content: center;
-    }
-
-    .qty-btn:hover {
-      background: #1f2937;
-      border-color: #374151;
-    }
-
-    .qty-btn:active {
-      transform: scale(0.95);
-    }
-
-    .qty-display {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.3rem;
-      font-weight: 700;
-      min-width: 60px;
-      text-align: center;
-    }
-
-    .quick-qty-group {
-      display: flex;
       gap: 6px;
     }
 
-    .quick-qty {
-      background: transparent;
-      border: 1px solid #1e293b;
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
+    .wallet-status-btn:hover {
+      background: var(--border-green);
+      color: #000;
+    }
+
+    /* SK3 Box Card */
+    .sk3-box {
+      border: 1px solid var(--border-green);
+      background: #000;
+      padding: 16px 20px;
+      position: relative;
+    }
+
+    .sk3-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .sk3-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+
+    .sk3-date {
       font-size: 0.75rem;
-      padding: 4px 10px;
-      border-radius: 6px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .sk3-desc {
+      font-size: 0.85rem;
+      color: #cccccc;
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+
+    /* Minting Console Grid */
+    .mint-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 700px) {
+      .mint-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .art-frame {
+      border: 1px solid var(--border-green);
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #050505;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .art-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      image-rendering: pixelated;
+    }
+
+    .art-badge {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      background: rgba(0,0,0,0.85);
+      border: 1px solid var(--border-green);
+      font-size: 0.65rem;
+      color: var(--border-green);
+      padding: 2px 6px;
+    }
+
+    /* Telemetry Fields */
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      padding: 6px 0;
+      border-bottom: 1px dashed #222;
+    }
+
+    .telemetry-row:last-child {
+      border-bottom: none;
+    }
+
+    .telemetry-label {
+      color: var(--text-muted);
+    }
+
+    .telemetry-val {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .telemetry-val.green {
+      color: var(--border-green);
+    }
+
+    /* Quantity & Action */
+    .qty-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .sk3-btn {
+      font-family: var(--font-mono);
+      background: transparent;
+      border: 1px solid var(--border-green);
+      color: var(--border-green);
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.15s;
     }
 
-    .quick-qty:hover {
-      border-color: #475569;
-      color: #fff;
+    .sk3-btn:hover {
+      background: var(--border-green);
+      color: #000;
     }
 
-    /* Action Button */
-    .mint-action-btn {
-      background: var(--primary);
-      color: #051402;
-      border: none;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      padding: 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 20px var(--primary-glow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .mint-action-btn:hover {
-      background: var(--primary-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(57, 255, 20, 0.4);
-    }
-
-    .mint-action-btn:disabled {
-      background: #1e293b;
-      color: #64748b;
+    .sk3-btn:disabled {
+      border-color: #333;
+      color: #555;
       cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
+      background: transparent;
     }
 
-    /* Status Notifications */
-    #status-banner {
-      font-family: 'JetBrains Mono', monospace;
+    .qty-num {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      min-width: 36px;
+      text-align: center;
+    }
+
+    .mint-execute-btn {
+      width: 100%;
+      background: var(--border-green);
+      color: #000;
+      border: 1px solid var(--border-green);
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 6px;
+    }
+
+    .mint-execute-btn:hover {
+      background: #fff;
+      border-color: #fff;
+      color: #000;
+    }
+
+    .mint-execute-btn:disabled {
+      background: #111;
+      border-color: #333;
+      color: #666;
+      cursor: not-allowed;
+    }
+
+    /* Admin Panel Console */
+    .admin-panel {
+      display: none;
+      border: 1px solid var(--accent-cyan);
+      background: #030a0a;
+      padding: 16px 20px;
+      margin-top: 10px;
+    }
+
+    .admin-badge {
+      display: inline-block;
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 650px) {
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .admin-card {
+      border: 1px solid #113333;
+      background: #000;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .admin-card-title {
       font-size: 0.8rem;
-      padding: 10px 14px;
-      border-radius: 8px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+
+    .admin-input {
+      font-family: var(--font-mono);
+      background: #050505;
+      border: 1px solid #222;
+      color: #fff;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      outline: none;
+      width: 100%;
+    }
+
+    .admin-input:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    .admin-action-btn {
+      font-family: var(--font-mono);
+      background: transparent;
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .admin-action-btn:hover {
+      background: var(--accent-cyan);
+      color: #000;
+    }
+
+    /* Log Output */
+    #console-log {
+      font-size: 0.75rem;
+      padding: 8px 12px;
+      background: #050505;
+      border: 1px dashed #333;
+      margin-top: 12px;
       display: none;
       word-break: break-all;
     }
 
-    #status-banner.error {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
+    #console-log.success {
+      border-color: var(--border-green);
+      color: var(--border-green);
       display: block;
     }
 
-    #status-banner.success {
-      background: rgba(57, 255, 20, 0.15);
-      border: 1px solid rgba(57, 255, 20, 0.3);
-      color: var(--primary);
+    #console-log.error {
+      border-color: var(--accent-red);
+      color: var(--accent-red);
       display: block;
     }
 
-    #status-banner.pending {
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: var(--accent);
+    #console-log.pending {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
       display: block;
     }
 
-    /* Links Footer */
+    /* SK3 Social Footer */
     footer {
       width: 100%;
-      max-width: 1040px;
+      max-width: 900px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
       gap: 12px;
-      padding: 24px 0 12px;
-      font-size: 0.85rem;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid #111;
+      font-size: 0.75rem;
       color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
-      z-index: 10;
     }
 
-    .footer-links {
+    .social-row {
       display: flex;
-      gap: 16px;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .footer-links a {
-      color: var(--text-muted);
+    .social-row a {
+      color: #aaa;
       text-decoration: none;
       transition: color 0.15s;
     }
 
-    .footer-links a:hover {
-      color: var(--primary);
+    .social-row a:hover {
+      color: var(--border-green);
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <a href="#" class="brand">
-      <img src="https://ipfs.io/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq" alt="Rishad Squatt" class="brand-avatar" onerror="this.src='public/favicon.ico'" />
-      <span class="brand-title">Rishad Squatt</span>
-      <span class="brand-badge">ETH MAINNET</span>
-    </a>
+  <div class="container">
+    
+    <!-- Top Header -->
+    <header>
+      <a href="https://blog.boroghor.com" class="site-title">
+        ≡ blog<span class="slash">//</span>squatt-mint
+      </a>
 
-    <button id="wallet-btn" class="connect-btn" onclick="toggleWallet()">
-      <span id="wallet-dot" style="width:7px; height:7px; border-radius:50%; background:#64748b;"></span>
-      <span id="wallet-btn-text">Connect Wallet</span>
-    </button>
-  </header>
+      <button id="wallet-btn" class="wallet-status-btn" onclick="toggleWallet()">
+        [ CONNECT WALLET ]
+      </button>
+    </header>
 
-  <main>
-    <!-- Left: Artwork Column -->
-    <div class="art-card">
-      <div class="art-container">
-        <img id="squatt-art" src="https://ipfs.io/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq" alt="Rishad Squatt NFT Artwork" class="art-img" />
-        <div class="art-overlay-tag">
-          <div class="pulse-dot"></div>
-          <span>ERC-721 Drop</span>
+    <!-- Main Mint Box (Styled identical to SK3 Blog Posts) -->
+    <div class="sk3-box">
+      <div class="sk3-box-header">
+        <div>
+          <div class="sk3-title">RISHAD SQUATT</div>
+          <div style="font-size:0.75rem; color:var(--border-green); margin-top:2px;">
+            ETHEREUM MAINNET // ERC-721 DROP
+          </div>
+        </div>
+        <div class="sk3-date">32 / 999 MINTED</div>
+      </div>
+
+      <div class="sk3-desc">
+        999 Rishads. Collect. Verified sovereign smart contract on Ethereum Mainnet.
+      </div>
+
+      <div class="mint-grid">
+        <!-- Art Column -->
+        <div class="art-frame">
+          <img id="squatt-art" src="https://ipfs.io/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq" alt="Rishad Squatt" onerror="this.src='https://gateway.pinata.cloud/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq'" />
+          <div class="art-badge">● LIVE CONTRACT</div>
+        </div>
+
+        <!-- Telemetry & Controls Column -->
+        <div style="display:flex; flex-direction:column; justify-content:space-between; height:100%;">
+          <div>
+            <div class="telemetry-row">
+              <span class="telemetry-label">CONTRACT</span>
+              <a href="https://etherscan.io/address/0xeb051df4f4a5de7bdc462c947e551085ba3a9664" target="_blank" class="telemetry-val green" style="text-decoration:none;">0xeb05...9664 ↗</a>
+            </div>
+            <div class="telemetry-row">
+              <span class="telemetry-label">SUPPLY POOL</span>
+              <span id="supply-display" class="telemetry-val">32 / 999 (3.2%)</span>
+            </div>
+            <div class="telemetry-row">
+              <span class="telemetry-label">UNIT PRICE</span>
+              <span id="unit-price-display" class="telemetry-val">0.010777 ETH</span>
+            </div>
+            <div class="telemetry-row">
+              <span class="telemetry-label">TOTAL AMOUNT</span>
+              <span id="total-price-display" class="telemetry-val green">0.010777 ETH</span>
+            </div>
+
+            <!-- Quantity Selector -->
+            <div class="qty-bar">
+              <span style="font-size:0.8rem; color:var(--text-muted); margin-right:6px;">QUANTITY:</span>
+              <button class="sk3-btn" onclick="updateQty(-1)">−</button>
+              <span id="qty-text" class="qty-num">01</span>
+              <button class="sk3-btn" onclick="updateQty(1)">+</button>
+
+              <div style="margin-left:auto; display:flex; gap:4px;">
+                <button class="sk3-btn" style="padding:4px 8px; font-size:0.75rem;" onclick="setQty(1)">1</button>
+                <button class="sk3-btn" style="padding:4px 8px; font-size:0.75rem;" onclick="setQty(3)">3</button>
+                <button class="sk3-btn" style="padding:4px 8px; font-size:0.75rem;" onclick="setQty(5)">5</button>
+                <button class="sk3-btn" style="padding:4px 8px; font-size:0.75rem;" onclick="setQty(10)">10</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Execute Button -->
+          <button id="mint-btn" class="mint-execute-btn" onclick="handleMintAction()">
+            > EXECUTE MINT (0.010777 ETH)
+          </button>
         </div>
       </div>
+
+      <!-- Console Log Area -->
+      <div id="console-log"></div>
     </div>
 
-    <!-- Right: Mint Details Column -->
-    <div class="mint-card">
-      <div class="collection-header">
-        <h1>Rishad Squatt</h1>
-        <p>999 Rishads. Collect. Original Zora ERC-721 drop revived on Ethereum Mainnet.</p>
+    <!-- ADMIN PANEL CONSOLE (Revealed ONLY for Contract Owner/Admin) -->
+    <div id="admin-panel" class="admin-panel">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="admin-badge">⚡ ROOT ADMIN CONSOLE // OWNER AUTHENTICATED</div>
+        <div id="contract-balance" style="font-size:0.75rem; color:var(--accent-cyan);">VAULT: 0.00 ETH</div>
       </div>
 
-      <!-- Live On-Chain Stats -->
-      <div class="progress-box">
-        <div class="progress-labels">
-          <span>MINTED SUPPLY</span>
-          <span class="highlight"><span id="minted-count">32</span> / <span id="max-supply">999</span> (<span id="minted-pct">3.2%</span>)</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div id="progress-fill" class="progress-bar-fill"></div>
-        </div>
-      </div>
-
-      <!-- Price Breakdown -->
-      <div class="price-row">
-        <span class="price-label">Price per Squatt</span>
-        <span id="unit-price-display" class="price-val">0.010777 ETH</span>
-      </div>
-
-      <!-- Quantity Picker -->
-      <div style="display:flex; flex-direction:column; gap:8px;">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span class="price-label">Select Quantity</span>
-          <div class="quick-qty-group">
-            <button class="quick-qty" onclick="setQty(1)">1</button>
-            <button class="quick-qty" onclick="setQty(3)">3</button>
-            <button class="quick-qty" onclick="setQty(5)">5</button>
-            <button class="quick-qty" onclick="setQty(10)">10</button>
+      <div class="admin-grid">
+        <!-- 1. Price & Sales Configuration -->
+        <div class="admin-card">
+          <div class="admin-card-title">1. UPDATE SALE CONFIGURATION</div>
+          <div style="display:flex; gap:6px;">
+            <input id="admin-price-input" class="admin-input" type="text" placeholder="Price in ETH (e.g. 0.01)" value="0.01" />
+            <button class="admin-action-btn" onclick="applyAdminPrice()">UPDATE</button>
+          </div>
+          <div style="display:flex; gap:4px; margin-top:2px;">
+            <button class="admin-action-btn" style="font-size:0.65rem;" onclick="setAdminPricePreset('0')">FREE (0)</button>
+            <button class="admin-action-btn" style="font-size:0.65rem;" onclick="setAdminPricePreset('0.001')">0.001</button>
+            <button class="admin-action-btn" style="font-size:0.65rem;" onclick="setAdminPricePreset('0.01')">0.01</button>
+            <button class="admin-action-btn" style="font-size:0.65rem;" onclick="setAdminPricePreset('0.05')">0.05</button>
           </div>
         </div>
 
-        <div class="qty-container">
-          <button class="qty-btn" onclick="updateQty(-1)">−</button>
-          <div id="qty-text" class="qty-display">1</div>
-          <button class="qty-btn" onclick="updateQty(1)">+</button>
+        <!-- 2. Free Admin Mint -->
+        <div class="admin-card">
+          <div class="admin-card-title">2. FREE ADMIN MINT (GAS ONLY)</div>
+          <input id="admin-mint-to" class="admin-input" type="text" placeholder="Recipient address (0x...)" />
+          <div style="display:flex; gap:6px;">
+            <input id="admin-mint-qty" class="admin-input" type="number" value="1" min="1" max="100" style="max-width:80px;" />
+            <button class="admin-action-btn" style="flex:1;" onclick="executeAdminMint()">MINT FREE</button>
+          </div>
+        </div>
+
+        <!-- 3. Batch Airdrop -->
+        <div class="admin-card">
+          <div class="admin-card-title">3. BATCH AIRDROP TO ADDRESSES</div>
+          <input id="admin-airdrop-list" class="admin-input" type="text" placeholder="Comma-separated (0x123..., 0x456...)" />
+          <button class="admin-action-btn" onclick="executeAdminAirdrop()">EXECUTE AIRDROP</button>
+        </div>
+
+        <!-- 4. Treasury & Vault Actions -->
+        <div class="admin-card">
+          <div class="admin-card-title">4. VAULT WITHDRAWAL & FUNDS</div>
+          <div style="display:flex; gap:6px;">
+            <button class="admin-action-btn" style="flex:1;" onclick="executeWithdraw()">WITHDRAW SALES</button>
+            <button class="admin-action-btn" style="flex:1;" onclick="executeWithdrawRewards()">WITHDRAW REWARDS</button>
+          </div>
+          <div style="display:flex; gap:6px; margin-top:4px;">
+            <input id="admin-funds-recipient" class="admin-input" type="text" placeholder="New Payout Address (0x...)" />
+            <button class="admin-action-btn" onclick="executeSetFundsRecipient()">SET</button>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- Total Price -->
-      <div class="price-row" style="border-top:1px solid #1e293b; padding-top:12px;">
-        <span class="price-label" style="font-weight:600; color:#fff;">Total Amount</span>
-        <span id="total-price" class="price-val" style="color:var(--primary);">0.010777 ETH</span>
+    <!-- SK3 Matching Footer -->
+    <footer>
+      <div class="social-row">
+        <a href="https://twitch.tv/borokhela" target="_blank">Twitch</a>
+        <a href="https://blog.boroghor.com" target="_blank">Blog</a>
+        <a href="https://github.com/borocode" target="_blank">GitHub</a>
+        <a href="https://opensea.io/collection/rishad-squatt" target="_blank">OpenSea</a>
+        <a href="https://etherscan.io/address/0xeb051df4f4a5de7bdc462c947e551085ba3a9664" target="_blank">Etherscan</a>
+        <a href="https://boroghor.com" target="_blank">boroghor.com</a>
       </div>
+      <div>
+        Power by Hugo. Theme SK3 by J-Siu // Sovereign Web3 Console.
+      </div>
+    </footer>
 
-      <!-- Mint Button -->
-      <button id="mint-btn" class="mint-action-btn" onclick="handleMintAction()">
-        ⚡ Connect Wallet to Mint
-      </button>
-
-      <!-- Status Banner -->
-      <div id="status-banner"></div>
-    </div>
-  </main>
-
-  <footer>
-    <div>Contract: <a href="https://etherscan.io/address/0xeb051df4f4a5de7bdc462c947e551085ba3a9664" target="_blank" style="color:var(--accent); text-decoration:none;">0xeb05...9664</a></div>
-    <div class="footer-links">
-      <a href="https://etherscan.io/address/0xeb051df4f4a5de7bdc462c947e551085ba3a9664#code" target="_blank">Etherscan</a>
-      <a href="https://opensea.io/collection/rishad-squatt" target="_blank">OpenSea</a>
-      <a href="https://zora.co/@boroghor" target="_blank">Zora</a>
-      <a href="https://github.com/borocode/squatt-mint" target="_blank">GitHub</a>
-    </div>
-  </footer>
+  </div>
 
   <script>
-    // Constants
     const CONTRACT_ADDRESS = "0xeb051df4f4a5de7bdc462c947e551085ba3a9664";
     const ETH_MAINNET_ID = 1;
-    let PRICE_PER_UNIT = ethers.parseEther("0.010777"); // 0.01 ETH creator + 0.000777 ETH Zora fee
+    const ZORA_FEE = ethers.parseEther("0.000777");
+    let CURRENT_PUBLIC_PRICE = ethers.parseEther("0.01");
+    let PRICE_PER_UNIT = CURRENT_PUBLIC_PRICE + ZORA_FEE;
     const FALLBACK_RPC = "https://ethereum-rpc.publicnode.com";
 
-    // Minimal Zora Drop ABI
+    // Complete Zora Drop V1 ABI (Including all Admin Functions)
     const DROP_ABI = [
+      "function owner() view returns (address)",
+      "function isAdmin(address) view returns (boolean)",
       "function totalSupply() view returns (uint256)",
       "function purchase(uint256 quantity) payable returns (uint256)",
-      "function mintWithRewards(address recipient, uint256 quantity, string comment, address mintReferral) payable returns (uint256)"
+      "function mintWithRewards(address recipient, uint256 quantity, string comment, address mintReferral) payable returns (uint256)",
+      "function setSaleConfiguration(uint104 publicSalePrice, uint32 maxSalePurchasePerAddress, uint64 publicSaleStart, uint64 publicSaleEnd, uint64 presaleStart, uint64 presaleEnd, bytes32 presaleMerkleRoot)",
+      "function adminMint(address recipient, uint256 quantity)",
+      "function adminMintAirdrop(address[] recipients)",
+      "function withdraw()",
+      "function withdrawRewards(address to, uint256 amount)",
+      "function setFundsRecipient(address newRecipientAddress)"
     ];
 
     let userAddress = null;
     let provider = null;
     let signer = null;
+    let contract = null;
     let quantity = 1;
+    let contractOwner = null;
 
     // Elements
     const walletBtn = document.getElementById("wallet-btn");
-    const walletBtnText = document.getElementById("wallet-btn-text");
-    const walletDot = document.getElementById("wallet-dot");
     const mintBtn = document.getElementById("mint-btn");
     const qtyText = document.getElementById("qty-text");
-    const totalPriceText = document.getElementById("total-price");
     const unitPriceDisplay = document.getElementById("unit-price-display");
-    const mintedCountEl = document.getElementById("minted-count");
-    const mintedPctEl = document.getElementById("minted-pct");
-    const progressFill = document.getElementById("progress-fill");
-    const statusBanner = document.getElementById("status-banner");
+    const totalPriceDisplay = document.getElementById("total-price-display");
+    const supplyDisplay = document.getElementById("supply-display");
+    const consoleLog = document.getElementById("console-log");
+    const adminPanel = document.getElementById("admin-panel");
+    const contractBalanceEl = document.getElementById("contract-balance");
 
-    function showStatus(msg, type) {
-      statusBanner.className = type;
-      statusBanner.innerHTML = msg;
+    function log(msg, type) {
+      consoleLog.className = type;
+      consoleLog.innerHTML = msg;
     }
 
-    function clearStatus() {
-      statusBanner.className = "";
-      statusBanner.innerHTML = "";
+    function clearLog() {
+      consoleLog.className = "";
+      consoleLog.innerHTML = "";
     }
 
     function setQty(val) {
       quantity = Math.max(1, Math.min(20, val));
-      updatePriceUI();
+      updateUI();
     }
 
     function updateQty(delta) {
       quantity = Math.max(1, Math.min(20, quantity + delta));
-      updatePriceUI();
+      updateUI();
     }
 
-    function updatePriceUI() {
-      qtyText.innerText = quantity;
+    function updateUI() {
+      qtyText.innerText = String(quantity).padStart(2, '0');
       const unitStr = ethers.formatEther(PRICE_PER_UNIT);
-      if (unitPriceDisplay) unitPriceDisplay.innerText = `${unitStr} ETH`;
+      unitPriceDisplay.innerText = `${unitStr} ETH`;
       const total = ethers.formatEther(PRICE_PER_UNIT * BigInt(quantity));
-      totalPriceText.innerText = `${total} ETH`;
+      totalPriceDisplay.innerText = `${total} ETH`;
       if (userAddress) {
-        mintBtn.innerText = `⚡ Mint ${quantity} Rishad Squatt`;
+        mintBtn.innerText = `> EXECUTE MINT (${total} ETH)`;
       }
     }
 
-    // Query on-chain live supply & detect live active price
-    async function loadOnChainStats() {
+    // Live on-chain telemetry
+    async function loadTelemetry() {
       try {
         const readProvider = new ethers.JsonRpcProvider(FALLBACK_RPC);
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, DROP_ABI, readProvider);
-        const supply = await contract.totalSupply();
+        const readContract = new ethers.Contract(CONTRACT_ADDRESS, DROP_ABI, readProvider);
+        
+        // Supply & Owner
+        const [supply, owner] = await Promise.all([
+          readContract.totalSupply(),
+          readContract.owner()
+        ]);
+        
+        contractOwner = owner.toLowerCase();
         const count = Number(supply);
-        mintedCountEl.innerText = count;
         const pct = ((count / 999) * 100).toFixed(1);
-        mintedPctEl.innerText = `${pct}%`;
-        progressFill.style.width = `${Math.max(3, pct)}%`;
+        supplyDisplay.innerText = `${count} / 999 (${pct}%)`;
 
-        // Check if price changed to 0.010777 ETH on-chain
+        // Check contract balance
+        const balance = await readProvider.getBalance(CONTRACT_ADDRESS);
+        if (contractBalanceEl) {
+          contractBalanceEl.innerText = `VAULT: ${ethers.formatEther(balance)} ETH`;
+        }
+
+        // Test active on-chain price
         try {
           await readProvider.call({
             to: CONTRACT_ADDRESS,
             data: "0xefef39a10000000000000000000000000000000000000000000000000000000000000001",
             value: ethers.parseEther("0.010777")
           });
-          // If simulation succeeded, price is 0.010777 ETH!
-          PRICE_PER_UNIT = ethers.parseEther("0.010777");
-          updatePriceUI();
-        } catch (simErr) {
-          // If reverted with expected 0.400777 requirement or other
-          const errStr = JSON.stringify(simErr);
+          CURRENT_PUBLIC_PRICE = ethers.parseEther("0.01");
+        } catch (e) {
+          const errStr = JSON.stringify(e);
           if (errStr.includes("058fd88edf259000")) {
-            PRICE_PER_UNIT = ethers.parseEther("0.400777");
+            CURRENT_PUBLIC_PRICE = ethers.parseEther("0.40");
           }
-          updatePriceUI();
         }
+        PRICE_PER_UNIT = CURRENT_PUBLIC_PRICE + ZORA_FEE;
+        updateUI();
       } catch (err) {
-        console.warn("Could not fetch live supply:", err);
+        console.warn("Telemetry fetch error:", err);
       }
     }
 
     async function toggleWallet() {
       if (userAddress) {
-        // Disconnect visual
         userAddress = null;
         signer = null;
-        walletBtn.className = "connect-btn";
-        walletDot.style.background = "#64748b";
-        walletBtnText.innerText = "Connect Wallet";
-        mintBtn.innerText = "⚡ Connect Wallet to Mint";
-        clearStatus();
+        walletBtn.innerText = "[ CONNECT WALLET ]";
+        mintBtn.innerText = "> CONNECT WALLET TO MINT";
+        adminPanel.style.display = "none";
+        clearLog();
       } else {
         await connectWallet();
       }
@@ -679,12 +706,12 @@
 
     async function connectWallet() {
       if (typeof window.ethereum === "undefined") {
-        showStatus("⚠️ No Web3 wallet found. Please install MetaMask, Coinbase Wallet, or Rabby.", "error");
+        log("ERR: No Web3 wallet found. Please install MetaMask or Rabby.", "error");
         return;
       }
 
       try {
-        clearStatus();
+        clearLog();
         provider = new ethers.BrowserProvider(window.ethereum);
         const accounts = await provider.send("eth_requestAccounts", []);
         const network = await provider.getNetwork();
@@ -696,25 +723,32 @@
               params: [{ chainId: "0x1" }]
             });
           } catch (switchErr) {
-            showStatus("⚠️ Please switch your wallet network to Ethereum Mainnet.", "error");
+            log("ERR: Please switch wallet network to Ethereum Mainnet (Chain ID 1).", "error");
             return;
           }
         }
 
         signer = await provider.getSigner();
-        userAddress = await signer.getAddress();
+        userAddress = (await signer.getAddress()).toLowerCase();
+        contract = new ethers.Contract(CONTRACT_ADDRESS, DROP_ABI, signer);
 
-        walletBtn.className = "connect-btn connected";
-        walletDot.style.background = "var(--primary)";
-        walletBtnText.innerText = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
-        mintBtn.innerText = `⚡ Mint ${quantity} Rishad Squatt`;
+        walletBtn.innerText = `[ ${userAddress.slice(0, 6)}...${userAddress.slice(-4)} ]`;
         mintBtn.disabled = false;
+        updateUI();
+
+        // Check Admin Auth
+        if (contractOwner && userAddress === contractOwner) {
+          adminPanel.style.display = "block";
+          log("ROOT ACCESS GRANTED: Connected with contract owner wallet.", "success");
+        } else {
+          adminPanel.style.display = "none";
+        }
       } catch (err) {
-        console.error(err);
-        showStatus(`Connection failed: ${err.message || err}`, "error");
+        log(`AUTH FAILED: ${err.message || err}`, "error");
       }
     }
 
+    // Public Mint
     async function handleMintAction() {
       if (!userAddress) {
         await connectWallet();
@@ -722,73 +756,147 @@
       }
 
       try {
-        clearStatus();
+        clearLog();
         mintBtn.disabled = true;
-        mintBtn.innerText = "⏳ Confirm in Wallet...";
-        showStatus("Please confirm the transaction in your Web3 wallet...", "pending");
+        mintBtn.innerText = "WAITING FOR SIGNATURE...";
+        log("TX: Waiting for signature confirmation in wallet...", "pending");
 
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, DROP_ABI, signer);
         const totalValue = PRICE_PER_UNIT * BigInt(quantity);
-
-        // Call purchase()
         const tx = await contract.purchase(quantity, { value: totalValue });
-        showStatus(`🚀 Transaction submitted! Waiting for confirmation... <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:#fff; text-decoration:underline;">View on Etherscan</a>`, "pending");
+        log(`TX BROADCASTED: <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:var(--accent-cyan);">View on Etherscan (${tx.hash.slice(0, 16)}...)</a>`, "pending");
 
         const receipt = await tx.wait();
         if (receipt.status === 1) {
-          showStatus(`🎉 Successfully minted ${quantity} Rishad Squatt! <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:var(--primary); text-decoration:underline;">View TX on Etherscan</a>`, "success");
-          
-          // Trigger confetti!
-          if (typeof confetti === "function") {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-          }
-
-          loadOnChainStats();
-        } else {
-          showStatus("❌ Transaction reverted on-chain.", "error");
+          log(`SUCCESS: Minted ${quantity} Rishad Squatt! <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:var(--border-green);">Etherscan TX</a>`, "success");
+          if (typeof confetti === "function") confetti({ particleCount: 80, spread: 60 });
+          loadTelemetry();
         }
       } catch (err) {
-        console.error("Mint error:", err);
-        const msg = err.reason || err.message || "User rejected or insufficient funds.";
-        showStatus(`⚠️ ${msg.slice(0, 120)}`, "error");
+        log(`ERR: ${err.reason || err.message || "Transaction rejected"}`, "error");
       } finally {
         mintBtn.disabled = false;
-        mintBtn.innerText = `⚡ Mint ${quantity} Rishad Squatt`;
+        updateUI();
       }
     }
 
-    // IPFS Gateway image fallback loader
-    function initArtFallback() {
-      const artImg = document.getElementById("squatt-art");
-      const gateways = [
-        "https://ipfs.io/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq",
-        "https://gateway.pinata.cloud/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq",
-        "https://cloudflare-ipfs.com/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq",
-        "https://dweb.link/ipfs/bafybeiflnjypa3gzhtaejisywlvy5jwm6moavhk2as5yzqz7eyehzs2ymq"
-      ];
-      let currentGatewayIdx = 0;
+    // ==========================================
+    // ADMIN FUNCTIONS
+    // ==========================================
 
-      artImg.onerror = () => {
-        currentGatewayIdx++;
-        if (currentGatewayIdx < gateways.length) {
-          artImg.src = gateways[currentGatewayIdx];
-        }
-      };
+    function setAdminPricePreset(val) {
+      document.getElementById("admin-price-input").value = val;
+    }
+
+    async function applyAdminPrice() {
+      if (!contract) return;
+      const priceEth = document.getElementById("admin-price-input").value.trim();
+      try {
+        const priceWei = ethers.parseEther(priceEth);
+        log(`ADMIN: Submitting setSaleConfiguration for ${priceEth} ETH...`, "pending");
+        const tx = await contract.setSaleConfiguration(
+          priceWei,
+          4294967295n,
+          0n,
+          18446744073709551615n,
+          0n,
+          0n,
+          "0x0000000000000000000000000000000000000000000000000000000000000000"
+        );
+        log(`ADMIN TX SUBMITTED: <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:var(--accent-cyan);">${tx.hash}</a>`, "pending");
+        await tx.wait();
+        log(`ADMIN SUCCESS: Price updated on-chain to ${priceEth} ETH!`, "success");
+        loadTelemetry();
+      } catch (e) {
+        log(`ADMIN ERR: ${e.reason || e.message}`, "error");
+      }
+    }
+
+    async function executeAdminMint() {
+      if (!contract) return;
+      const to = document.getElementById("admin-mint-to").value.trim() || userAddress;
+      const qty = BigInt(document.getElementById("admin-mint-qty").value || 1);
+      try {
+        log(`ADMIN: Executing free admin mint of ${qty} to ${to}...`, "pending");
+        const tx = await contract.adminMint(to, qty);
+        log(`ADMIN MINT TX: <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:var(--accent-cyan);">${tx.hash}</a>`, "pending");
+        await tx.wait();
+        log(`ADMIN SUCCESS: Minted ${qty} tokens free!`, "success");
+        loadTelemetry();
+      } catch (e) {
+        log(`ADMIN ERR: ${e.reason || e.message}`, "error");
+      }
+    }
+
+    async function executeAdminAirdrop() {
+      if (!contract) return;
+      const raw = document.getElementById("admin-airdrop-list").value.trim();
+      const recipients = raw.split(/[\n,]+/).map(s => s.trim()).filter(s => ethers.isAddress(s));
+      if (recipients.length === 0) {
+        log("ADMIN ERR: No valid Ethereum addresses provided for airdrop.", "error");
+        return;
+      }
+      try {
+        log(`ADMIN: Airdropping 1 NFT each to ${recipients.length} addresses...`, "pending");
+        const tx = await contract.adminMintAirdrop(recipients);
+        log(`AIRDROP TX: <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:var(--accent-cyan);">${tx.hash}</a>`, "pending");
+        await tx.wait();
+        log(`ADMIN SUCCESS: Airdropped to ${recipients.length} wallets!`, "success");
+        loadTelemetry();
+      } catch (e) {
+        log(`ADMIN ERR: ${e.reason || e.message}`, "error");
+      }
+    }
+
+    async function executeWithdraw() {
+      if (!contract) return;
+      try {
+        log("ADMIN: Withdrawing contract sales balance...", "pending");
+        const tx = await contract.withdraw();
+        log(`WITHDRAW TX: <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:var(--accent-cyan);">${tx.hash}</a>`, "pending");
+        await tx.wait();
+        log("ADMIN SUCCESS: Sales proceeds withdrawn!", "success");
+        loadTelemetry();
+      } catch (e) {
+        log(`ADMIN ERR: ${e.reason || e.message}`, "error");
+      }
+    }
+
+    async function executeWithdrawRewards() {
+      if (!contract) return;
+      try {
+        log("ADMIN: Withdrawing creator protocol rewards...", "pending");
+        const tx = await contract.withdrawRewards(userAddress, 0n);
+        log(`REWARDS TX: <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:var(--accent-cyan);">${tx.hash}</a>`, "pending");
+        await tx.wait();
+        log("ADMIN SUCCESS: Protocol rewards withdrawn!", "success");
+        loadTelemetry();
+      } catch (e) {
+        log(`ADMIN ERR: ${e.reason || e.message}`, "error");
+      }
+    }
+
+    async function executeSetFundsRecipient() {
+      if (!contract) return;
+      const addr = document.getElementById("admin-funds-recipient").value.trim();
+      if (!ethers.isAddress(addr)) {
+        log("ADMIN ERR: Invalid recipient address.", "error");
+        return;
+      }
+      try {
+        log(`ADMIN: Updating payout address to ${addr}...`, "pending");
+        const tx = await contract.setFundsRecipient(addr);
+        log(`UPDATE TX: <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" style="color:var(--accent-cyan);">${tx.hash}</a>`, "pending");
+        await tx.wait();
+        log("ADMIN SUCCESS: Funds recipient updated!", "success");
+      } catch (e) {
+        log(`ADMIN ERR: ${e.reason || e.message}`, "error");
+      }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      initArtFallback();
-      loadOnChainStats();
-
-      // Listen for account change
+      loadTelemetry();
       if (window.ethereum) {
-        window.ethereum.on("accountsChanged", (accounts) => {
-          if (accounts.length === 0) {
-            toggleWallet();
-          } else {
-            connectWallet();
-          }
-        });
+        window.ethereum.on("accountsChanged", () => connectWallet());
       }
     });
   </script>
